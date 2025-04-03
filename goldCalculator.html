@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Estimation Calculator</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #c6c09c, #e9c873);
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            color: #d4af37;
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+        }
+        input:focus {
+            border-color: #ffcc00;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #d4af37;
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #ffcc00;
+            transform: scale(1.05);
+        }
+        .result {
+            margin-top: 15px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff8d1;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+            white-space: pre-line;
+        }
+        .result p {
+            margin: 1px 0;
+            font-size: 16px;
+            line-height: 1;
+        }
+        .separator {
+            display: block;
+            border-bottom: 2px solid #b58900;
+            margin: 10px 0;
+        }
+        .total-price {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Gold Estimation Calculator</h2>
+        <input type="text" id="ornamentName" placeholder="Enter Ornament Name" value="" />
+        <input type="number" id="goldWeight" placeholder="Enter gold weight in (grams)" value="" />
+        <input type="number" id="goldPrice" placeholder="Enter 1 gram gold price" value="" />
+        <input type="number" id="makingCharge" placeholder="Enter making charge (%)" value="" />
+        <button onclick="calculateGoldPrice()">Calculate</button>
+        <div class="result" id="result">
+            <p><strong>Gold Cost:</strong> ₹0.00</p>
+            <p><strong>Making Charges (0%):</strong> ₹0.00</p>
+            <p><strong>SGST (1.5%):</strong> ₹0.00</p>
+            <p><strong>CGST (1.5%):</strong> ₹0.00</p>
+            <p class="separator"></p>
+            <p class="total-price"><strong>Total Estimated Price:</strong> ₹0.00</p>
+        </div>
+    </div>
+
+    <script>
+        function calculateGoldPrice() {
+            let ornamnetName = document.getElementById('ornamentName').value || "Gold Item";
+            let weight = parseFloat(document.getElementById('goldWeight').value) || 0;
+            let pricePerGram = parseFloat(document.getElementById('goldPrice').value) || 0;
+            let makingChargePercent = parseFloat(document.getElementById('makingCharge').value) || 0;
+
+            let goldCost = weight * pricePerGram;
+            let makingCharge = (goldCost * makingChargePercent) / 100;
+            let totalBeforeTax = goldCost + makingCharge;
+            let sgst = (totalBeforeTax * 1.5) / 100;
+            let cgst = (totalBeforeTax * 1.5) / 100;
+            let totalPrice = totalBeforeTax + sgst + cgst;
+
+            document.getElementById('result').innerHTML = `
+                <p><strong>Ornamnet Name:</strong> ₹${ornamnetName}</p>
+                <p><strong>Gold Cost:</strong> ₹${goldCost.toFixed(2)}</p>
+                <p><strong>Making Charges (${makingChargePercent}%):</strong> ₹${makingCharge.toFixed(2)}</p>
+                <p><strong>SGST (1.5%):</strong> ₹${sgst.toFixed(2)}</p>
+                <p><strong>CGST (1.5%):</strong> ₹${cgst.toFixed(2)}</p>
+                <p class="separator"></p>
+                <p class="total-price"><strong>Total Estimated Price:</strong> ₹${totalPrice.toFixed(2)}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
